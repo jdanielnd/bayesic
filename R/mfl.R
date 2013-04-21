@@ -12,8 +12,13 @@ treatbm <- function(mats) {
 
 mflist <- function(mats,pca,vs) {
   mats.treated <- treat.data(mats,pca)
+  matrix_num <- 0
+  matrix_len <- length(mats.treated)
   lapply(mats.treated, function(x) {
-    mfl(x,vs)
+    res <- mfl(x,vs)
+    matrix_num <- matrix_num + 1
+    cat(paste("Matrix complete ", matrix_num, " of ", matrix_len, " - ", (matrix_num/matrix_len)*100, "%"))
+    res
   }) 
 }
 
