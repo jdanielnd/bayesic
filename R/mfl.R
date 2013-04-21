@@ -10,14 +10,16 @@ treatbm <- function(mats) {
   res 
 }
 
-mflist <- function(mats,pca,vs) {
-  mats.treated <- treat.data(mats,pca)
+mflist <- function(mats,pca,vs, treated=TRUE) {
+  if(treated==FALSE) {
+    mats <- treat.data(mats,pca)
+  }
   matrix_num <- 0
-  matrix_len <- length(mats.treated)
-  lapply(mats.treated, function(x) {
+  matrix_len <- length(mats)
+  lapply(mats, function(x) {
     res <- mfl(x,vs)
     matrix_num <- matrix_num + 1
-    cat(paste("Matrix complete ", matrix_num, " of ", matrix_len, " - ", (matrix_num/matrix_len)*100, "%"))
+    cat(paste("Matrix complete ", matrix_num, " of ", matrix_len, " - ", (matrix_num/matrix_len)*100, "%","\n"))
     res
   }) 
 }
