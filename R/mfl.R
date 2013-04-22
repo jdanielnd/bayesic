@@ -10,21 +10,20 @@ treatbm <- function(mats) {
   res 
 }
 
-mflist <- function(mats,pca,vs) {
-  mats.treated <- treat.data(mats,pca)
-  matrix_num <- 0
-  matrix_len <- length(mats.treated)
-  lapply(mats.treated, function(x) {
-    res <- mfl(x,vs)
-    matrix_num <- matrix_num + 1
-    cat(paste("Matrix complete ", matrix_num, " of ", matrix_len, " - ", (matrix_num/matrix_len)*100, "%","\n"))
-    res
+mflist <- function(mats) {
+  lapply(mats, function(x) {
+    tryCatch({
+      res <- gibbs.mfle(x,"norm")
+      apply(res[[5]],2,mean)
+    }, error=function(e) {
+      0
+    })
   }) 
 }
 
-mfl <- function(mat,vs) {
+mfl <- function(mat) {
 	# res <- mflC(1000,mat)
-  res <- gibbs.mfle(mat,vs=vs)
+  res <- gibbs.mfle(mat)
 	pmat <- res[[5]]
 	pvec <- apply(pmat,2,mean)
 	pvec
