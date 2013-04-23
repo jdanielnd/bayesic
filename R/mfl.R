@@ -41,7 +41,7 @@ mflC <- function(ite, x) {
   .Call("mfl", ite, x, PACKAGE="bayesic")
 }
 
-gibbs.mfle <- function(x, vs, ite=1000, omega=10, omega_1=omega/100, a=2.1, b=1.1, gamma_a=1, gamma_b=1) {
+gibbs.mfle <- function(x, vs, ite=1000, omega=10, omega_1=omega/1000, a=2.1, b=1.1, gamma_a=1, gamma_b=1) {
 
   alpha <- array(0.1,c(nrow(x),1))
   sigma2 <- array(1,c(nrow(x),1))
@@ -88,9 +88,12 @@ gibbs.mfle <- function(x, vs, ite=1000, omega=10, omega_1=omega/100, a=2.1, b=1.
           } else {
             alpha[i] <- rnorm(1,m_alpha_1,sqrt(v_alpha_1))
           }
-          frac_1 = dnorm(0,m_alpha_0,sqrt(v_alpha_0),log=T)+dnorm(0,0,sqrt(omega),log=T)
+          frac_1 = dnorm(0,m_alpha_0,sqrt(v_alpha_0),log=T)-dnorm(0,0,sqrt(omega),log=T)
           frac_2 = dnorm(0,0,sqrt(omega_1),log=T)-dnorm(0,m_alpha_1,sqrt(v_alpha_1),log=T)
           p_star[i] <- p/(p + exp(frac_1+frac_2)*(1-p))
+          # frac_1 = dnorm(0,m_alpha_0,sqrt(v_alpha_0))/dnorm(0,0,sqrt(omega))
+          # frac_2 = dnorm(0,0,sqrt(omega_1))/dnorm(0,m_alpha_1,sqrt(v_alpha_1))
+          # p_star[i] <- p/(p + frac_1*frac_2*(1-p))
         } else {
           # alpha sampling
           v_alpha <- 1/((1/omega) + (sum(lambda^2)/sigma2[i]))
