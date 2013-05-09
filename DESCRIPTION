@@ -7,5 +7,5 @@ Author: Who wrote it
 Maintainer: Who to complain to <yourfault@somewhere.net>
 Description: More about what it does (maybe more than one line)
 License: GPL-2
-Depends: Rcpp (>= 0.8.0), RcppArmadillo (>= 0.2.0), som
+Depends: Rcpp (>= 0.8.0), RcppArmadillo (>= 0.2.0), som, TeachingDemos
 LinkingTo: Rcpp, RcppArmadillo 

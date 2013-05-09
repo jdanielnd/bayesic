@@ -69,9 +69,10 @@ try{
 	    } else {
 	      alpha[i] = 0;
 	    }
-	    double p_1 = Rcpp::dnorm(Rcpp::NumericVector::create(1),m_alpha,sqrt(v_alpha))[0];
-	    double p_2 = Rcpp::dnorm(Rcpp::NumericVector::create(1),0,sqrt(omega))[0];
-	    p_star[i] = p/(p + p_1/(p_2*(1-p)));
+	    double p_1 = Rcpp::dnorm(Rcpp::NumericVector::create(1),m_alpha,sqrt(v_alpha),true)[0];
+	    double p_2 = Rcpp::dnorm(Rcpp::NumericVector::create(1),0,sqrt(omega),true)[0];
+	    // p_star[i] = p/(p + p_1/(p_2*(1-p)));
+	    p_star[i] = p/(p + exp(p_1-p_2)/(1-p));
 
 	    alpha_mat(k,i) = alpha[i];
 	    sigma_mat(k,i) = sigma[i];

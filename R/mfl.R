@@ -14,7 +14,10 @@ mflist <- function(mats) {
   lapply(mats, function(x) {
     tryCatch({
       res <- gibbs.mfle(x,"norm")
-      apply(res[[5]],2,mean)
+      apply(res[[5]],2,function(x) {
+        hpd <- emp.hpd(x)
+        c(hpd[1],mean(x),hpd[2])
+      })
     }, error=function(e) {
       0
     })
