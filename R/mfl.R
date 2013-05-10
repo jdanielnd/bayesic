@@ -10,13 +10,24 @@ treatbm <- function(mats) {
   res 
 }
 
+classify <- function(x) {
+  if(x[3] <= 0.5) {
+    "Absence"
+  } else if(x[3] > 0.5 && x[1] < 0.5) {
+    "Unresolved"
+  } else {
+    "Present"
+  }
+}
+
 mflist <- function(mats) {
   lapply(mats, function(x) {
     tryCatch({
       res <- gibbs.mfle(x,"norm")
       apply(res[[5]],2,function(x) {
-        hpd <- emp.hpd(x)
-        c(hpd[1],mean(x),hpd[2])
+        len <- length(x)
+        hpd <- emp.hpd(x[200:len])
+        c(hpd[1],mean(x[200:len]),hpd[2])
       })
     }, error=function(e) {
       0
