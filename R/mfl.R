@@ -40,7 +40,12 @@ mfnames <- function(names, pc1) {
     mat <- as.matrix(read.table(name))
     mat.treated <- treat.mat(mat, pc1)
     res <- gibbs.mfle(mat.treated,"norm")[[5]]
-    write.table(res, file=paste("results/",name,sep=""))
+    mean <- apply(res,2,mean)
+    hpd <- apply(res,2,emp.hpd)
+    lower <- hpd[1,]
+    upper <- hpd[2,]
+    df <- data.frame(lower=lower,mean=mean,upper=upper)
+    write.table(df, file=paste("results/",name,sep=""))
     print(paste("Saving ", name, " results", sep=""))
   })
 }
