@@ -41,7 +41,7 @@ mfnames <- function(names, pc1) {
     mat.treated <- treat.mat(mat, pc1)
     res <- gibbs.mfle(mat.treated,"norm")
     save(res, file=paste("results/",gsub("txt","R",name),sep=""))
-    print(paste("Saving ", name, " results", sep="")
+    print(paste("Saving ", name, " results", sep=""))
   })
 }
 
