@@ -39,8 +39,8 @@ mfnames <- function(names, pc1) {
   lapply(names, function(name) {
     mat <- as.matrix(read.table(name))
     mat.treated <- treat.mat(mat, pc1)
-    res <- gibbs.mfle(mat.treated,"norm")
-    save(res, file=paste("results/",gsub("txt","R",name),sep=""))
+    res <- gibbs.mfle(mat.treated,"norm")[[5]]
+    write.table(res, file=paste("results/",name,sep=""))
     print(paste("Saving ", name, " results", sep=""))
   })
 }
